@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xp.graduation.mapper.UserMapper">
+    <!--用户注册-->
+    <insert id="insertUserStu" useGeneratedKeys="true" keyProperty="id">
+        insert into user(username,password,phone,gender,powerlevel) values(#{username},#{password},#{phone},'1','3')
+    </insert>
+    <!-- admin添加教师或企业角色 -->
+    <insert id="adminInsertUser" useGeneratedKeys="true" keyProperty="id">
+        insert into user(username,password,phone,gender,powerlevel) values(#{username},#{password},#{phone},'1',#{powerlevel})
+    </insert>
+    <!--修改用户密码-->
+    <update id="updatePwd">
+        update user set password = #{pwd} where username = #{username} and password = #{oldPwd}
+    </update>
+    <!--通过用户名查重-->
+    <select id="findUnique" resultType="com.xp.graduation.bean.User">
+        select * from user where username = #{username}
+    </select>
+    <!--修改教师信息-->
+    <update id="updateTeacherInfo">
+        update user set phone = #{phone},gender = #{gender} where id = #{id}
+    </update>
+    <!--批量查询教师信息导出-->
+    <select id="selectTeacher" resultType="com.xp.graduation.bean.User">
+        select id,username,phone,gender from user
+        where id in
+        <foreach collection="array" item="ids" open="(" separator="," close=")">
+            #{ids}
+        </foreach>
+    </select>
+</mapper>

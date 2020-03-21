@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>综合实践项目管理系统</title>
+    <link rel="stylesheet" type="text/css" href="../static/login/css/styles.css" th:href="@{../static/login/css/styles.css}">
+    <link rel="stylesheet" href="../static/login/css/jigsaw.css" th:href="@{../static/login/css/jigsaw.css}">
+</head>
+<body>
+<div class="jq22-container" style="padding-top:100px">
+    <div class="login-wrap">
+        <div class="login-html">
+            <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">修改密码界面</label>
+            <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab"></label>
+            <div class="login-form">
+                <form th:action="@{/updatePwd}" method="post" onsubmit="return sub()">
+                    <div class="sign-in-htm">
+                        <div class="group">
+                            <label for="user" class="label">用户名</label>
+                            <input id="username" name="username"  type="text" class="input">
+                        </div>
+                        <div class="group">
+                            <label for="pass" class="label" >密码</label>
+                            <input id="password" name="password" type="password" class="input" data-type="password">
+                        </div>
+                        <div class="group">
+                            <label for="password2" class="label">确认密码</label>
+                            <input id="password2" name="password2" type="password" class="input" data-type="password">
+                        </div>
+                        <div class="group">
+                            <label for="phone" class="label">电话</label>
+                            <input id="phone" name="phone" placeholder="获取验证码" type="text" class="input" onblur="verCode()">
+                        </div>
+                        <div class="group">
+                            <label for="verificationCode" class="label">验证码</label>
+                            <input id="verificationCode" name="verificationCode" type="text" class="input">
+                        </div>
+                        <div class="group">
+                            <div class="container">
+                                <div id="captcha" style="position: relative" data-type="password"></div>
+                                <div id="msg"></div>
+                            </div>
+                        </div>
+                        <div class="group">
+                            <button class="button" type="submit">修改密码</button>  <!--onClick="sub()" -->
+                        </div>
+
+                        <div class="hr"></div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="../static/login/js/jquery-1.8.2.min.js" th:src="@{../static/login/js/jquery-1.8.2.min.js}"></script>
+<script src="../static/login/js/jigsaw.js" th:src="@{../static/login/js/jigsaw.js}"></script>
+<script>
+    function sub(){
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+        var password2 = document.getElementById("password2").value;
+        var phone = document.getElementById("phone").value;
+
+        if("" == username || "" == password || "" == password2 || "" == phone){
+            alert("必填项不能为空！！！");
+            return false;
+        }
+
+        if(password != password2){
+            alert("两次输入的密码不正确！！！");
+            return false;
+        }
+        var TEL_REGEXP = /^1([38]\d|5[0-35-9]|7[3678])\d{8}$/;
+        if(!TEL_REGEXP.test(phone)){
+            alert("请输入正确的电话号码");
+            return false;
+        }
+        return true;
+    }
+
+    // 发送验证码
+    function verCode() {
+        var phone = document.getElementById("phone").value;
+        var TEL_REGEXP = /^1([38]\d|5[0-35-9]|7[3678])\d{8}$/;
+        if(!TEL_REGEXP.test(phone)){
+            alert("请输入正确的电话号码");
+            return ;
+        }
+
+        $.ajax({
+            url: 'verCode',//地址
+            dataType: 'json',//数据类型
+            type: 'POST',//类型
+            data:{'phone':phone},
+            //请求成功
+            success: function (data) {
+                    alert("success "+data);
+            },
+            error : function (data) {
+                alert("failer "+data);
+            }
+        });
+    }
+</script>
+</body>
+</html>

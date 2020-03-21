@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xp.graduation.mapper.TrainingScheduleMapper">
+    <insert id="insertTrainingSchedule" useGeneratedKeys="true" keyProperty="id">
+        insert into training_schedule
+        (pcode, pname, address, type, companyname, starttime, endtime, content, doc, cost, pattr1, pattr2 )
+        values(#{pcode}, #{pname}, #{address}, #{type}, #{companyname}, #{starttime}, #{endtime}, #{content}, #{doc},  #{cost}, #{pattr1}, #{pattr2})
+    </insert>
+    <update id="updateDocToTrainingSchedule">
+        update training_schedule set doc = #{doc} ORDER BY id DESC LIMIT 1
+    </update>
+    <select id="findPojs" resultType="com.xp.graduation.bean.TrainingSchedule">
+        select * from training_schedule
+    </select>
+    <select id="getInfoById" resultType="com.xp.graduation.bean.TrainingSchedule">
+        select * from training_schedule where id = #{id}
+    </select>
+
+    <update id="updateTrainingScheduleInfo">
+        update training_schedule
+        set address=#{address},content=#{content},cost=#{cost}
+        where id = #{id}
+    </update>
+
+    <update id="updateTrainInfo">
+        update training_schedule
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="cost != null  and cost != ''  ">cost = #{cost},</if>
+            <if test="address != null  and address != ''  ">address = #{address},</if>
+        </trim>
+        where id = #{id}
+    </update>
+</mapper>

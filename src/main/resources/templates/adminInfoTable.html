@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>综合实践项目管理系统</title>
+
+
+    <script type="text/javascript" src="../static/js/jquery.js" th:href="@{../static/js/jquery.js}"></script>
+    <script type="text/javascript" src="../static/js/jsapi.js" th:href="@{../static/js/jsapi.js}"></script>
+    <script type="text/javascript" src="../static/js/corechart.js" th:href="@{../static/js/corechart.js}"></script>
+    <script type="text/javascript" src="../static/js/jquery.gvChart-1.0.1.min.js" th:href="@{../static/js/jquery.gvChart-1.0.1.min.js}"></script>
+    <script type="text/javascript" src="../static/js/jquery.ba-resize.min.js" th:href="@{../static/js/jquery.ba-resize.min.js}"></script>
+
+    <script type="text/javascript">
+        gvChartInit();
+        $(document).ready(function(){
+            $('#myTable5').gvChart({
+                chartType: 'PieChart',
+                gvSettings: {
+                    vAxis: {title: 'No of players'},
+                    hAxis: {title: 'Month'},
+                    width: 600,
+                    height: 350
+                }
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        gvChartInit();
+        $(document).ready(function(){
+            $('#myTable1').gvChart({
+                chartType: 'PieChart',
+                gvSettings: {
+                    vAxis: {title: 'No of players'},
+                    hAxis: {title: 'Month'},
+                    width: 600,
+                    height: 350
+                }
+            });
+        });
+    </script>
+
+</head>
+
+
+<body>
+
+<div style="width:600px;margin:0 auto;">
+
+    <table id='myTable5'>
+        <caption>评价等级</caption>
+        <thead>
+        <tr>
+            <th></th>
+            <th>A</th>
+            <th>B</th>
+            <th>C</th>
+
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th>[[${session.level.S}]]</th>
+            <td>[[${session.level.A}]]</td>
+            <td>[[${session.level.B}]]</td>
+            <td>[[${session.level.C}]]</td>
+
+        </tr>
+        </tbody>
+    </table>
+
+    <table id='myTable1'>
+        <caption>学生成绩</caption>
+        <thead>
+        <tr>
+            <th></th>
+            <th>优秀</th>
+            <th>良好</th>
+            <th>不及格</th>
+
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th>[[${session.stuLevel.S}]]</th>
+            <td>[[${session.stuLevel.A}]]</td>
+            <td>[[${session.stuLevel.B}]]</td>
+            <td>[[${session.stuLevel.C}]]</td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)http://getbootstrap.com/docs/4.0/examples/dashboard/ -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="">
+		<meta name="author" content="">
+
+		<title>综合实践项目管理系统</title>
+		<!-- Bootstrap core CSS -->
+		<link href="../static/asserts/css/bootstrap.min.css" th:href="@{../static/asserts/css/bootstrap.min.css}" rel="stylesheet">
+
+		<!-- Custom styles for this template -->
+		<link href="../static/asserts/css/dashboard.css" th:href="@{../static/asserts/css/dashboard.css}" rel="stylesheet">
+		<style type="text/css">
+			/* Chart.js */
+			
+			@-webkit-keyframes chartjs-render-animation {
+				from {
+					opacity: 0.99
+				}
+				to {
+					opacity: 1
+				}
+			}
+			
+			@keyframes chartjs-render-animation {
+				from {
+					opacity: 0.99
+				}
+				to {
+					opacity: 1
+				}
+			}
+			
+			.chartjs-render-monitor {
+				-webkit-animation: chartjs-render-animation 0.001s;
+				animation: chartjs-render-animation 0.001s;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--引入抽取的顶部文件-->
+		<div th:replace="commons/common :: top"></div>
+
+		<div class="container-fluid">
+			<div class="row">
+				<!--引入侧边栏-->
+				<div th:replace="commons/common::#left"></div>
+				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+					<h2>教师信息</h2>
+					<div class="form-inline">
+						<form th:action="@{/teacher}" method="post" >
+							<input name="teaName" type="text" placeholder="名字">
+							<input type="submit" value="查询">
+						</form>
+						<form th:action="@{/exports}" method="post" onsubmit="return exprots()">
+							<input type="hidden" id="check_val" name="check_val" value="">
+							<input type="submit" value="导出">
+						</form>
+					</div>
+						<div class="table-responsive">
+						<table class="table table-striped table-sm">
+							<thead>
+								<tr>
+									<th></th>
+									<th>用户ID</th>
+									<th>用户名</th>
+									<th>联系电话</th>
+									<th>性别</th>
+								</tr>
+							</thead>
+							<tbody id="teas" name="teas">
+							<tr th:each="user:${users}">
+								<td><input type="checkbox" name="checkId" th:value="${user.id}"></td>
+								<td th:text="${user.id}"></td>
+								<td th:text="${user.username}"></td>
+								<td th:text="${user.phone}"></td>
+								<td th:text="${user.gender}=='0'?'女':'男'"></td>
+							</tr>
+							</tbody>
+						</table>
+
+							<tr>
+								<td><button th:onclick="page(1)">首页</button></td>
+								<td><button th:onclick="page(-1)">上一页</button></td>
+								<td><button th:onclick="page(-2)">下一页</button></td>
+								<td><button th:onclick="page(0)">尾页</button></td>
+							</tr>
+							<input type="hidden" id="pages" th:value="${pages}">
+							<input type="hidden" id="nowPages" th:value="1">
+					</div>
+				</main>
+			</div>
+		</div>
+
+		<!-- Bootstrap core JavaScript
+    ================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script type="text/javascript" src="../static/login/js/jquery-3.4.1.min.js" th:src="@{../static/login/js/jquery-3.4.1.min.js}"></script>
+		<script type="text/javascript" src="../static/asserts/js/popper.min.js" th:href="@{../static/asserts/js/popper.min.js}"></script>
+		<script type="text/javascript" src="../static/asserts/js/bootstrap.min.js" th:href="@{../static/asserts/js/bootstrap.min.js}"></script>
+
+		<!-- Icons -->
+		<script type="text/javascript" src="../static/asserts/js/feather.min.js" th:href="@{../static/asserts/js/feather.min.js}"></script>
+		<script>
+			feather.replace()
+		</script>
+
+		<!-- Graphs -->
+		<script type="text/javascript" src="../static/asserts/js/Chart.min.js" th:href="@{../static/asserts/js/Chart.min.js}"></script>
+
+	<script>
+		function page(data){
+			if(1 == data){   //首页
+				data = data;
+				document.getElementById("nowPages").value = data;
+			}
+			if(-1 == data){  // 上一页
+				data = document.getElementById("nowPages").value;
+				if(1 == data){
+					alert("当前已是第一页！！！");
+					data = 1;
+				}else{
+					data = data - 1 ;
+					document.getElementById("nowPages").value = data;
+				}
+
+			}
+			if(-2 == data){   //下一页
+				data = document.getElementById("nowPages").value;
+				var pages = document.getElementById("pages").value;  // 最后一页
+				if(pages == data){
+					alert("当前已是最后一页！！！");
+				}else{
+					data = parseInt(data) + 1;
+					document.getElementById("nowPages").value = data;
+				}
+			}
+			if(0 == data){
+				data = document.getElementById("pages").value;
+				document.getElementById("nowPages").value = data;
+			}
+
+			$.ajax({
+				url:"/page",
+				type:"post",
+				data:{pagenum:data},
+				success: function (data) {  //回调函数  执行完请求后执行函数
+					var html = "";
+					for(var i=0;i<data.length;i++){
+						var da = data[i];
+						html+="<tr>";
+						html+="<td><input type=\"checkbox\"></td>";
+						html+="<td>"+da.id+"</td>";
+						html+="<td>"+da.username+"</td>";
+						html+="<td>"+da.phone+"</td>";
+						html+="<td>"+da.gender+"</td>";
+						html+="<td>";
+						html+="</td>";
+						html+="</tr>";
+					}
+					$("#teas").html(html);
+				},
+				error:function(data){
+					alert("失败！！");
+				}
+			})
+		}
+	</script>
+	<script>
+		function exprots(){
+			var obj = document.getElementsByName("checkId");
+			var check_val = [];
+			for (k in obj) {
+				if (obj[k].checked)
+					check_val.push(obj[k].value);
+			}
+			check_val = $.makeArray(check_val);
+			if(check_val == ""){
+				alert("请选择要导出的教师信息！！！");
+				return false;
+			}
+			document.getElementById("check_val").value = check_val ;
+			return true;
+		}
+	</script>
+	</body>
+</html>

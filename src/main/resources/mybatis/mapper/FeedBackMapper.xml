@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xp.graduation.mapper.FeedBackMapper">
+    <!--学生实训效果反馈-->
+    <insert id="insertFeedBack" useGeneratedKeys="true" keyProperty="id">
+        insert into feedback(username,pname,level,content) values(#{username},#{pname},#{level},#{content})
+    </insert>
+    <!--报表统计学生反馈信息-->
+    <select id="sumLevel" resultType="com.xp.graduation.bean.Level">
+        select COUNT(1) AS S,sum(if((level='A'),1,0)) as A,sum(if((level='B'),1,0)) as B,sum(if((level='C'),1,0)) as C  FROM feedback
+    </select>
+    <!--报表统计教师评价的学生成绩-->
+    <select id="sumAchievement" resultType="com.xp.graduation.bean.Level">
+        select count(1) AS S,sum(case when teacherresult &gt; 80 then 1 else 0 end) as A,
+        sum(case when teacherresult &gt;= 60 and teacherresult &lt;= 80 then 1 else 0 end) as B,
+        sum(case when teacherresult &lt; 60 then 1 else 0 end) as C
+        from scoreform
+    </select>
+</mapper>
