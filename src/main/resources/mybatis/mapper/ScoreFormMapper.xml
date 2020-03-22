@@ -47,4 +47,8 @@
     <update id="updateStatus">
         update scoreform set status = '1' where username = #{username}
     </update>
+    <!--查询教师名下的学生实习信息 -->
+    <select id="selectStuDoc" resultType="com.xp.graduation.bean.ScoreForm">
+        select username,pname,reportdoc from scoreform where teacher = #{teacher}
+    </select>
 </mapper>

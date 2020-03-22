@@ -74,6 +74,17 @@
                     教师信息管理
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" th:href="@{/adminUpdateCom}" th:style="${session.loginUserInfo.powerlevel} == '0' ? 'display:show':'display:none'">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                    企业信息管理
+                </a>
+            </li>
             <li class="nav-item " style="display: none" th:style="${session.loginUserInfo.powerlevel} == '3' ? 'display:show':'display:none'">
                 <a class="nav-link" href="#" th:href="@{/signin}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users">
@@ -119,6 +130,17 @@
                 </a>
             </li>
             <li class="nav-item " style="display: none" th:style="${session.loginUserInfo.powerlevel} == '2' ? 'display:show':'display:none'">
+                <a class="nav-link" href="#" th:href="@{/teacherDown}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                    实习报告收集
+                </a>
+            </li>
+            <li class="nav-item " style="display: none" th:style="${session.loginUserInfo.powerlevel} == '2' ? 'display:show':'display:none'">
                 <a class="nav-link" href="#" th:href="@{/teaform}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users">
                         <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
@@ -129,6 +151,7 @@
                     学生成绩评价
                 </a>
             </li>
+
             <li class="nav-item " style="display: none" th:style="${session.loginUserInfo.powerlevel} == '1' ? 'display:show':'display:none'">
                 <a class="nav-link" href="#" th:href="@{/company}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users">

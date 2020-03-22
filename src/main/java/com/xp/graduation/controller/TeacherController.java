@@ -3,16 +3,25 @@ package com.xp.graduation.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.xp.graduation.bean.ScoreForm;
+import com.xp.graduation.bean.TrainingSchedule;
 import com.xp.graduation.bean.User;
 import com.xp.graduation.mapper.ScoreFormMapper;
+import com.xp.graduation.mapper.TrainingScheduleMapper;
 import com.xp.graduation.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.*;
 import java.util.List;
+
+import static com.xp.graduation.utils.DownFileUtil.downFile;
 
 /**
  * @author xp
@@ -56,14 +65,10 @@ public class TeacherController {
     }
 
     // 根据姓名查询教师信息
-    // 教师信息查询(学生)
     @PostMapping("/teacher")
     public String getTeachersInfo(@RequestParam("teaName") String teaName, Model model){
         System.out.println("teaName = " + teaName);
         List<User> users = userMapper.findTeas(teaName.trim());
-        for (User user : users) {
-            System.out.println("user = " + user);
-        }
         model.addAttribute("users",users);
         return "teacherInfoList";
     }
@@ -88,5 +93,31 @@ public class TeacherController {
         List<ScoreForm> stuScores = sMapper.selectStuScorce(loginUserInfo.getUsername());
         model.addAttribute("teaScoreList",stuScores);
         return "teacherStuScore";
+    }
+
+    @GetMapping("/teacherDown")
+    public String teacherDown(HttpSession session,Model model){
+        User loginUserInfo = (User) session.getAttribute("loginUserInfo");
+        List<ScoreForm> list = sMapper.selectStuDoc(loginUserInfo.getUsername());
+        for (int i = 0; i < list.size(); i++) {
+            String reportdoc = list.get(i).getReportdoc();
+            String[] s = reportdoc.split("_");
+            if(s.length > 1){
+                list.get(i).setShowreportdoc(s[1]);
+            }else{
+                list.get(i).setShowreportdoc("暂未提交实习报告");
+            }
+        }
+        model.addAttribute("docs",list);
+        return "teacherStuDoc";
+    }
+
+    // 下载实习报告
+    @GetMapping("/download/{filename}")
+    @ResponseBody
+    public void downLoad(   HttpServletResponse response,
+                           @PathVariable("filename") String filename)
+            throws UnsupportedEncodingException {
+        downFile(response,filename);
     }
 }

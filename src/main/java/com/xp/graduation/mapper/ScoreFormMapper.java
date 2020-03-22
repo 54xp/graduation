@@ -46,6 +46,9 @@ public interface ScoreFormMapper {
     // 学生反馈后修改项目实训状态
     void updateStatus(String username);
 
+    // 查询教师名下的学生实习信息
+    List<ScoreForm> selectStuDoc(String teacherName);
+
     // 查询该学生企业实训成绩状态
 //    String selectCompanyStatus(String stuname);
 }

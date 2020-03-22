@@ -51,15 +51,11 @@
         <!--引入侧边栏-->
         <div th:replace="commons/common::#left"></div>
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-            <h2>修改教师信息</h2>
+            <h2>修改企业信息</h2>
             <div class="form-inline">
-                <form th:action="@{/teacher}" method="post" >
+                <form th:action="@{/adminFindCom}" method="post" >
                     <input name="teaName" type="text" placeholder="名字">
                     <input type="submit" value="查询">
-                </form>
-                <form th:action="@{/exports}" method="post" onsubmit="return exprots()">
-                    <input type="hidden" id="check_val" name="check_val" value="">
-                    <input type="submit" value="导出">
                 </form>
             </div>
             <div class="table-responsive">
@@ -67,10 +63,9 @@
                     <thead>
                     <tr>
                         <th></th>
-                        <th>用户ID</th>
-                        <th>用户名</th>
+                        <th>企业编号</th>
+                        <th>企业名</th>
                         <th>联系电话</th>
-                        <th>性别</th>
                         <th></th>
                         <th>操作</th>
                     </tr>
@@ -81,10 +76,9 @@
                         <td th:text="${user.id}"></td>
                         <td th:text="${user.username}"></td>
                         <td th:text="${user.phone}"></td>
-                        <td th:text="${user.gender}=='0'?'女':'男'"></td>
                         <td>
-                            <td class="btn btn-sm btn-primary" th:onclick="updateTeaInfo([[${user.id}]]);">编辑</td>
-                            <td class="btn btn-sm btn-danger"  th:onclick="deleteTeaInfo([[${user.id}]]);">删除</td>
+                        <td class="btn btn-sm btn-primary" th:onclick="updateComInfo([[${user.id}]]);">编辑</td>
+                        <td class="btn btn-sm btn-danger"  th:onclick="deleteComInfo([[${user.id}]]);">删除</td>
                         </td>
                     </tr>
                     </tbody>
@@ -107,7 +101,7 @@
 <!-- 模态框（Modal） -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <form th:action="@{/adminUpdateTeaInfo}" method="post">
+        <form th:action="@{/adminUpdateComInfo}" method="post">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
@@ -118,10 +112,7 @@
                     <input type="hidden" id="teaid" name="id">
                     用户名:&nbsp;&nbsp;<input id="teaname" name="username" type="text"  readonly><br>
                     联系方式:<input id="teaphone" name="phone" type="text"><br>
-                    性别:&nbsp;&nbsp;<select id="sex" name="gender">
-                            <option id="0" value="0">女</option>
-                            <option id="1" value="1">男</option>
-                        </select>
+                </select>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭
@@ -152,7 +143,7 @@
 <script type="text/javascript" src="../static/asserts/js/Chart.min.js" th:href="@{../static/asserts/js/Chart.min.js}"></script>
 
 <script>
-    function updateTeaInfo(data) {
+    function updateComInfo(data) {
         var id = data;
         $.ajax({
             url:"/adminFindTeacher",
@@ -162,11 +153,6 @@
                 document.getElementById("teaid").value = data.id;
                 document.getElementById("teaname").value = data.username;
                 document.getElementById("teaphone").value = data.phone;
-                if("0" == data.gender){
-                    $("#0").prop("selected",true);
-                }else{
-                    $("#1").prop("selected",true);
-                }
                 $('#myModal').modal('show');
             },
             error:function(data){
@@ -175,10 +161,10 @@
         })
     }
 
-    function deleteTeaInfo(data){
+    function deleteComInfo(data){
         if (!confirm("确定要删除吗?")) {
-             return false;
-         }
+            return false;
+        }
         var id = data;
         $.ajax({
             url:"/deleteTeaInfo",
@@ -228,7 +214,7 @@
             alert("当前已是最后一页！！！");
         }
         $.ajax({
-            url:"/page",
+            url:"/compage",
             type:"post",
             data:{pagenum:data},
             success: function (data) {  //回调函数  执行完请求后执行函数
@@ -240,12 +226,11 @@
                     html+="<td>"+da.id+"</td>";
                     html+="<td>"+da.username+"</td>";
                     html+="<td>"+da.phone+"</td>";
-                    html+="<td>"+da.gender+"</td>";
                     html+="<td>";
-         //           html+="<a class=\"btn btn-sm btn-primary\" href=\"user/"+da.id+"\">编辑</a>";
-                    html+="<td class=\"btn btn-sm btn-primary\" onclick=\"updateTeaInfo("+da.id+");\">编辑</td>";
-         //           html+="<a class=\"btn btn-sm btn-danger\" href=\"user/"+da.id+"\">删除</a>";
-                    html+="<td class=\"btn btn-sm btn-danger\" onclick=\"deleteTeaInfo("+da.id+");\">删除</td>";
+                    //           html+="<a class=\"btn btn-sm btn-primary\" href=\"user/"+da.id+"\">编辑</a>";
+                    html+="<td class=\"btn btn-sm btn-primary\" onclick=\"updateComInfo("+da.id+");\">编辑</td>";
+                    //           html+="<a class=\"btn btn-sm btn-danger\" href=\"user/"+da.id+"\">删除</a>";
+                    html+="<td class=\"btn btn-sm btn-danger\" onclick=\"deleteComInfo("+da.id+");\">删除</td>";
                     html+="</td>";
                     html+="</tr>";
                 }
@@ -255,23 +240,6 @@
                 alert("失败！！");
             }
         })
-    }
-</script>
-<script>
-    function exprots(){
-        var obj = document.getElementsByName("checkId");
-        var check_val = [];
-        for (k in obj) {
-            if (obj[k].checked)
-                check_val.push(obj[k].value);
-        }
-        check_val = $.makeArray(check_val);
-        if(check_val == ""){
-            alert("请选择要导出的教师信息！！！");
-            return false;
-        }
-        document.getElementById("check_val").value = check_val ;
-        return true;
     }
 </script>
 </body>

@@ -6,7 +6,7 @@
     <insert id="insertTrainingSchedule" useGeneratedKeys="true" keyProperty="id">
         insert into training_schedule
         (pcode, pname, address, type, companyname, starttime, endtime, content, doc, cost, pattr1, pattr2 )
-        values(#{pcode}, #{pname}, #{address}, #{type}, #{companyname}, #{starttime}, #{endtime}, #{content}, #{doc},  #{cost}, #{pattr1}, #{pattr2})
+        values(#{pcode}, #{pname}, #{address}, #{type}, #{companyname}, #{starttime}, #{endtime}, #{content}, #{doc},  #{cost}, "0", #{pattr2})
     </insert>
     <update id="updateDocToTrainingSchedule">
         update training_schedule set doc = #{doc} ORDER BY id DESC LIMIT 1

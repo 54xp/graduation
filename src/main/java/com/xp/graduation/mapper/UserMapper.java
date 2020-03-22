@@ -30,6 +30,10 @@ public interface UserMapper {
     @Select("select * from user where powerlevel = 2 and username like concat('%',#{name},'%') ")
     List<User> findTeas(String name);
 
+    // 根据姓名查询企业信息
+    @Select("select * from user where powerlevel = 1 and username like concat('%',#{name},'%') ")
+    List<User> findComs(String name);
+
     // 修改用户密码
     void updatePwd(@Param("username") String username, @Param("pwd") String pwd,@Param("oldPwd") String oldPwd);
 
@@ -39,14 +43,14 @@ public interface UserMapper {
     // 通过用户名查重
     User findUnique(String username);
 
-    // 根据id查询教师信息
+    // 根据id查询用户信息
     @Select("select * from user where id = #{id}")
     User finTeacherById(int id);
 
     // 修改教师信息
     void updateTeacherInfo(User teacher);
 
-    // 删除教师信息
+    // 删除用户信息
     @Delete("delete from user where id = #{id}")
     void deleteTeaInfo(int id);
 

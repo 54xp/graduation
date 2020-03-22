@@ -85,6 +85,8 @@ public class AdminController {
         if(StringUtils.isEmpty(u)){
             user.setPassword(md5.getMD5(user.getPassword()));
             uMapper.adminInsertUser(user);
+            session.removeAttribute("message");
+            session.setAttribute("message","添加用户成功！！！");
         }else{
             session.setAttribute("message","用户名已存在！！！");
         }
@@ -163,7 +165,6 @@ public class AdminController {
     @ResponseBody
     @PostMapping("/adminFindTeacher")
     public User tea(int id){
-        System.out.println("id = " + id);
         User teacher = uMapper.finTeacherById(id);
         return teacher;
     }
@@ -179,7 +180,7 @@ public class AdminController {
         return "adminUpdateTeachers";
     }
 
-    // 删除教师信息
+    // 删除用户信息
     @PostMapping("deleteTeaInfo")
     @ResponseBody
     public String deleteTeaInfo(int id){
@@ -228,5 +229,46 @@ public class AdminController {
         List<TrainingSchedule> pojs = tMapper.findPojs();
         model.addAttribute("pojs",pojs);
         return "adminTrainPoj";
+    }
+
+    // 企业信息管理
+    @GetMapping("/adminUpdateCom")
+    public String adminUpdateCom(Model model){
+        PageHelper.startPage(1,4);
+        List<User> users = uMapper.findUserByLevel(1);
+        model.addAttribute("users",users);
+        PageInfo<User> pinfo = new PageInfo<>(users);
+        model.addAttribute("pages",pinfo.getPages());  // 页码数量
+        return "adminUpdateCompany";
+    }
+
+    // 分页企业信息查询
+    @PostMapping("/compage")
+    @ResponseBody
+    public List<User> getTeachersInfoPage(@RequestParam("pagenum") String pagenum, Model model){
+        PageHelper.startPage(Integer.parseInt(pagenum),4);
+        List<User> users = uMapper.findUserByLevel(1);
+        return users;
+    }
+
+    // 修改企业信息
+    @PostMapping("adminUpdateComInfo")
+    public String adminUpdateComInfo(User company,Model model){
+        uMapper.updateTeacherInfo(company);
+        PageHelper.startPage(1,4);
+        List<User> users = uMapper.findUserByLevel(1);
+        model.addAttribute("users",users);
+        return "adminUpdateCompany";
+    }
+
+    // 查询企业信息
+    @PostMapping("adminFindCom")
+    public String adminFindCom(String teaName,Model model){
+        PageHelper.startPage(1,4);
+        List<User> users = uMapper.findComs(teaName);
+        model.addAttribute("users",users);
+        PageInfo<User> pinfo = new PageInfo<>(users);
+        model.addAttribute("pages",pinfo.getPages());  // 页码数量
+        return "adminUpdateCompany";
     }
 }

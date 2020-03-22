@@ -20,4 +20,5 @@ public class ScoreForm {
     private String teastatus;
     private String status;
     private String createdate;
+    private String showreportdoc;
 }
