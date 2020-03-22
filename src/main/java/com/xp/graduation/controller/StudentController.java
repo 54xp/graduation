@@ -38,10 +38,7 @@ public class StudentController {
     // 跳转至实训报名界面
     @GetMapping("/signin")
     public String signup(Model model){
-        List<TrainingSchedule> pojs = tMapper.findPojs();
-        for (TrainingSchedule poj : pojs) {
-            System.out.println("poj = " + poj);
-        }
+        List<TrainingSchedule> pojs = tMapper.findPojsPattr1();
         model.addAttribute("pojs",pojs);
         return "studentSignup";
     }

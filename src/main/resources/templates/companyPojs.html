@@ -62,8 +62,8 @@
                         <th>项目名</th>
                         <th>公司名</th>
                         <th>报名费用</th>
+                        <th>实训地点</th>
                         <th>操作</th>
-                        <th>项目状态</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -74,12 +74,13 @@
                         <td th:text="${poj.pname}"></td>
                         <td th:text="${poj.companyname}"></td>
                         <td th:text="'￥' +${poj.cost}"></td>
+                        <td th:text="${poj.address}"></td>
                         <td>
-                            <a class="btn btn-sm " th:href="@{/admin/}+${poj.id}">项目详情</a>
+                            <a class="btn btn-sm " th:href="@{/company/}+${poj.id}" style="display: none" th:style="${poj.pattr1} == '0' ? 'display:show':'display:none'">审批中</a>
+                            <a class="btn btn-sm " href="#" style="display: none" th:style="${poj.pattr1} == '1' ? 'display:show':'display:none'">审批通过</a>
                         </td>
-                        <td th:text="待审批" type="button" th:onclick="sp([[${poj.id}]],[[${poj.companyname}]],[[${poj.pname}]]);" style="display: none" th:style="${poj.pattr1} == '0' ? 'display:show':'display:none'"></td>
-                        <td th:text="审批通过"  style="display: none" th:style="${poj.pattr1} == '1' ? 'display:show':'display:none'"></td>
                     </tr>
+
                     </tbody>
                 </table>
             </div>
@@ -87,33 +88,6 @@
     </div>
 </div>
 
-<!-- 模态框（Modal） -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <form th:action="@{/adminSpPoj}" method="post">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                        &times;
-                    </button>
-                </div>
-
-                <div class="modal-body">
-                    <input type="hidden" id="pojid" name="pojid" value="">
-                    企业名:<input id="comname" name="comname" type="text"  readonly><br>
-                    项目名:<input id="pname" name="pname" type="text">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
-                    </button>
-                    <button type="submit" class="btn btn-primary">
-                        批准通过
-                    </button>
-                </div>
-            </div><!-- /.modal-content -->
-        </form>
-    </div><!-- /.modal -->
-</div>
 
 
 <!-- Bootstrap core JavaScript
@@ -159,14 +133,6 @@
             }
         }
     });
-</script>
-<script>
-    function sp(pojid,companyname,pname){
-        document.getElementById("pojid").value = pojid;
-        document.getElementById("comname").value = companyname;
-        document.getElementById("pname").value = pname;
-        $('#myModal').modal('show');
-    }
 </script>
 </body>
 </html>

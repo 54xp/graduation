@@ -9,9 +9,7 @@ import com.xp.graduation.utils.UploadFileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +29,7 @@ public class CompanyController {
     @Autowired
     ScoreFormMapper sMapper;
 
-    @RequestMapping("/company")
+    @GetMapping("/company")
     public String publish(){
         return "companyPublish";
     }
@@ -69,6 +67,39 @@ public class CompanyController {
         List<ScoreForm> stuScores = sMapper.comSelectStuScorce(loginUserInfo.getUsername());
         model.addAttribute("comScoreList",stuScores);
         return "companyStuScore";
+    }
+
+    // 跳转至实训项目管理界面
+    @GetMapping("/companyPoj")
+    public String companyPoj(HttpSession session,
+                             Model model){
+        User loginUserInfo = (User) session.getAttribute("loginUserInfo");
+        //  根据公司名查询其发布的项目
+        List<TrainingSchedule> list = trainingScheduleMapper.selectComPoj(loginUserInfo.getUsername());
+        model.addAttribute("pojs",list);
+        return "companyPojs";
+    }
+
+    // 进入审批中项目详情界面
+    @GetMapping("/company/{id}")
+    public String shareTeachers(@PathVariable("id") Integer id,Model model){
+        System.out.println("id = " + id);
+        TrainingSchedule trainingSchedule = trainingScheduleMapper.getInfoById(id);
+        model.addAttribute("trainingSchedule",trainingSchedule);
+        return "companyTrainScheduleInfo";
+    }
+    // 修改审批中的项目
+    @PostMapping("/company/{id}")
+    public String updateTrainingScheduleById(@PathVariable("id") Integer id,
+                                             TrainingSchedule trainingSchedule,
+                                             Model model,
+                                             HttpSession session){
+        trainingScheduleMapper.updateTrainingScheduleInfo(trainingSchedule);
+        User loginUserInfo = (User) session.getAttribute("loginUserInfo");
+        //  根据公司名查询其发布的项目
+        List<TrainingSchedule> list = trainingScheduleMapper.selectComPoj(loginUserInfo.getUsername());
+        model.addAttribute("pojs",list);
+        return "companyPojs";
     }
 
 }

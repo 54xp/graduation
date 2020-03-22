@@ -14,6 +14,9 @@
     <select id="findPojs" resultType="com.xp.graduation.bean.TrainingSchedule">
         select * from training_schedule
     </select>
+    <select id="findPojsPattr1" resultType="com.xp.graduation.bean.TrainingSchedule">
+        select * from training_schedule where pattr1 = "1"
+    </select>
     <select id="getInfoById" resultType="com.xp.graduation.bean.TrainingSchedule">
         select * from training_schedule where id = #{id}
     </select>
@@ -31,5 +34,14 @@
             <if test="address != null  and address != ''  ">address = #{address},</if>
         </trim>
         where id = #{id}
+    </update>
+
+    <select id="selectComPoj" resultType="com.xp.graduation.bean.TrainingSchedule">
+       select * from training_schedule where companyname = #{companyname}
+    </select>
+
+    <update id="updateTrainPattr1">
+        update training_schedule set pattr1 = "1"
+        where id = #{poiid}
     </update>
 </mapper>

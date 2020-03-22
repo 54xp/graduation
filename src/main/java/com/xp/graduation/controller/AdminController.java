@@ -220,4 +220,13 @@ public class AdminController {
         model.addAttribute("pojs",list);
         return "adminAddressPage";
     }
+
+    // 项目审批通过
+    @PostMapping("/adminSpPoj")
+    public String adminSpPoj(Integer pojid, Model model){
+        tMapper.updateTrainPattr1(pojid);
+        List<TrainingSchedule> pojs = tMapper.findPojs();
+        model.addAttribute("pojs",pojs);
+        return "adminTrainPoj";
+    }
 }

@@ -59,7 +59,7 @@
             <h2>实训信息</h2>
 
             <div class="table-responsive">
-                <form role="form" th:action="@{/admin/}+${trainingSchedule.id}" method="post">
+                <form role="form" th:action="@{/company/}+${trainingSchedule.id}" method="post">
                     <!--项目id-->
                     <input type="hidden" name="id" th:value="${trainingSchedule.id}">
                     <div class="form-group row">
@@ -93,15 +93,15 @@
                         </div>
                     </div>
                     <!--<div class="form-group row">-->
-                        <!--<label class="col-sm-1 control-label" for="teachers">实训指导老师</label>-->
-                        <!--<div class="col-sm-5">-->
-                            <!--<input type="text" class="form-control" id="teachers" name="teachers" th:value="${trainingSchedule.teachers}" th:if="${trainingSchedule.teachers !=null }" placeholder="指定实训指导老师" readonly>-->
-                            <!--<select th:name="teachers" class="form-control" th:if="(${trainingSchedule.teachers == null}) and ${teachers != null} " >-->
-                                <!--<tr th:each="teacher:${teachers}" th:name="teachers">-->
-                                    <!--<option name="teachers" th:value="${teacher.username}" th:text="${teacher.username}"></option>-->
-                                <!--</tr>-->
-                            <!--</select>-->
-                        <!--</div>-->
+                    <!--<label class="col-sm-1 control-label" for="teachers">实训指导老师</label>-->
+                    <!--<div class="col-sm-5">-->
+                    <!--<input type="text" class="form-control" id="teachers" name="teachers" th:value="${trainingSchedule.teachers}" th:if="${trainingSchedule.teachers !=null }" placeholder="指定实训指导老师" readonly>-->
+                    <!--<select th:name="teachers" class="form-control" th:if="(${trainingSchedule.teachers == null}) and ${teachers != null} " >-->
+                    <!--<tr th:each="teacher:${teachers}" th:name="teachers">-->
+                    <!--<option name="teachers" th:value="${teacher.username}" th:text="${teacher.username}"></option>-->
+                    <!--</tr>-->
+                    <!--</select>-->
+                    <!--</div>-->
                     <!--</div>-->
                     <div class="form-group row">
                         <label class="col-sm-1 control-label" for="starttime">开始时间</label>
@@ -127,6 +127,7 @@
                             ￥<input type="text" class="form-control" id="cost" name="cost" th:value="${trainingSchedule.cost}" placeholder="报名费用">
                         </div>
                     </div>
+
                     <button type="submit" class="btn btn-primary">提交</button>
                 </form>
             </div>

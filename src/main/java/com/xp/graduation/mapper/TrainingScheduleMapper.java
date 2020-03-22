@@ -20,6 +20,9 @@ public interface TrainingScheduleMapper {
     // 查询所有的实训项目
     List<TrainingSchedule> findPojs();
 
+    // 查询所有审批通过的实训项目
+    List<TrainingSchedule> findPojsPattr1();
+
     // 查看项目详情
     TrainingSchedule getInfoById(Integer id);
 
@@ -28,4 +31,10 @@ public interface TrainingScheduleMapper {
 
     // 费用修改与地址修改
     void updateTrainInfo(TrainingSchedule trainingSchedule);
+
+    //  根据公司名查询其发布的项目
+    List<TrainingSchedule> selectComPoj(String companyName);
+
+    // 修改项目状态
+    void updateTrainPattr1(Integer pojid);
 }
