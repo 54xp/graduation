@@ -88,7 +88,7 @@
 <!-- 模态框（Modal） -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <form th:action="@{/adminUpdateCostInfo}" method="post">
+        <form th:action="@{/adminUpdateCostInfo}" method="post" onsubmit="return checkData()">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title" id="myModalLabel">
@@ -163,6 +163,21 @@
         document.getElementById("comname").value = comname;
         document.getElementById("cost").value = cost;
         $('#myModal').modal('show');
+    }
+
+    function checkData() {
+        var cost = document.getElementById("cost").value;
+
+        if("" == cost ){
+            alert("必填项不能为空！！！");
+            return false;
+        }
+        var re = /^[1-9]\d*$/;//正整数
+        if(!re.test(parseInt(cost))){
+            alert("请输入正确的数字");
+            return false;
+        }
+        return true;
     }
 </script>
 </body>

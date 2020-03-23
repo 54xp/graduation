@@ -59,7 +59,7 @@
             <h2>实训信息</h2>
 
             <div class="table-responsive">
-                <form role="form" th:action="@{/admin/}+${trainingSchedule.id}" method="post">
+                <form role="form" th:action="@{/admin/}+${trainingSchedule.id}" method="post" onsubmit="return checkData()">
                     <!--项目id-->
                     <input type="hidden" name="id" th:value="${trainingSchedule.id}">
                     <div class="form-group row">
@@ -92,17 +92,6 @@
                             <input type="text" class="form-control" id="address" name="address" th:value="${trainingSchedule.address}" placeholder="具体地点">
                         </div>
                     </div>
-                    <!--<div class="form-group row">-->
-                        <!--<label class="col-sm-1 control-label" for="teachers">实训指导老师</label>-->
-                        <!--<div class="col-sm-5">-->
-                            <!--<input type="text" class="form-control" id="teachers" name="teachers" th:value="${trainingSchedule.teachers}" th:if="${trainingSchedule.teachers !=null }" placeholder="指定实训指导老师" readonly>-->
-                            <!--<select th:name="teachers" class="form-control" th:if="(${trainingSchedule.teachers == null}) and ${teachers != null} " >-->
-                                <!--<tr th:each="teacher:${teachers}" th:name="teachers">-->
-                                    <!--<option name="teachers" th:value="${teacher.username}" th:text="${teacher.username}"></option>-->
-                                <!--</tr>-->
-                            <!--</select>-->
-                        <!--</div>-->
-                    <!--</div>-->
                     <div class="form-group row">
                         <label class="col-sm-1 control-label" for="starttime">开始时间</label>
                         <div class="col-sm-5">
@@ -178,6 +167,22 @@
         }
     });
 </script>
-
+<script>
+    function checkData() {
+        var address = document.getElementById("address").value;
+        var content = document.getElementById("content").value;
+        var cost = document.getElementById("cost").value;
+        if("" == address || "" == content|| "" == cost){
+            alert("必填项不能为空！！！");
+            return false;
+        }
+        var re = /^[1-9]\d*$/;//正整数
+        if(!re.test(parseInt(cost))){
+            alert("请输入正确的数字");
+            return false;
+        }
+        return true;
+    }
+</script>
 </body>
 </html>

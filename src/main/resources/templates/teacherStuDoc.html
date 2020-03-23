@@ -71,7 +71,7 @@
                         <td th:text="${doc.showreportdoc}"></td>
                         <!--<td th:text="下载" type="button" th:onclick="downFile([[${doc.reportdoc}]]);" style="display: none" th:style="${doc.reportdoc} != null ? 'display:show':'display:none'"></td>-->
                         <td th:style="${doc.reportdoc} != null ? 'display:show':'display:none'">
-                            <a class="btn btn-sm " th:href="@{/download/}+${doc.reportdoc}">文件下载</a>
+                            <a class="btn btn-sm " th:href="@{/download/}+${doc.reportdoc}">下载</a>
                         </td>
                     </tr>
                     </tbody>

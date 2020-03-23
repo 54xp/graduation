@@ -117,7 +117,7 @@ public class TeacherController {
     @ResponseBody
     public void downLoad(   HttpServletResponse response,
                            @PathVariable("filename") String filename)
-            throws UnsupportedEncodingException {
+            throws Exception {
         downFile(response,filename);
     }
 }

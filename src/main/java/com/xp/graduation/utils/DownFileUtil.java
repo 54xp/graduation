@@ -2,6 +2,7 @@ package com.xp.graduation.utils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.net.URL;
 
 /**
  * @author XP
@@ -10,7 +11,7 @@ import java.io.*;
 public class DownFileUtil {
     // 文件下载方法
     public static void downFile(HttpServletResponse response,String filename) throws UnsupportedEncodingException {
-        String filePath = "F:/uploads" ;
+        String filePath = "D:/uploads" ;
         File file = new File(filePath + "/" + filename);
         if(file.exists()){ //判断文件父目录是否存在
             response.setContentType("application/vnd.ms-excel;charset=UTF-8");
@@ -46,4 +47,5 @@ public class DownFileUtil {
             }
         }
     }
+
 }

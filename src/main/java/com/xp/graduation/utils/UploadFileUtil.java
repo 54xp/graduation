@@ -12,7 +12,7 @@ import java.util.UUID;
  */
 public class UploadFileUtil {
     public static String uploadFile(MultipartFile upload) throws IOException {
-        String path = "F:/uploads/";
+        String path = "D:/uploads/";
         System.out.println("存储路径  "+path);
         System.out.println("文件名  "+upload.getOriginalFilename());
         File file = new File(path);
