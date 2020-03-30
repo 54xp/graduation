@@ -39,7 +39,7 @@ public class AdminController {
     @Autowired
     FeedBackMapper fMapper;
 
-    // 查询所有的企业发布的实训项目
+    //  查询所有的企业发布的实训项目
     @GetMapping("/admin")
     public String trainPoj(Model model){
         List<TrainingSchedule> pojs = tMapper.findPojs();
