@@ -1,0 +1,6 @@
+1.IDEA
+2.Tomcat
+3.MySql
+4.BootStrapt
+5.Navicat
+6.SpringBoot+Mybatis+Thymleaf
