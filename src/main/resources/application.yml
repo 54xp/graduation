@@ -1,18 +1,36 @@
 spring:
+  #数据库连接信息
   datasource:
     username: root
     password: a
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/graduation?serverTimezone=Asia/Shanghai
+  #文件上传大小配置
   servlet:
     multipart:
       enabled: true
       max-file-size: 20MB
       max-request-size: 20MB
-
+  #开发时关闭缓存,不然没法看到实时页面
+  thymeleaf:
+    cache: false
+  #国际化
+  messages:
+    basename: i18n.login
+  mvc:
+    static-path-pattern: /static/**
+  resources:
+    static-locations: classpath:/static
+  #持久层配置
 mybatis:
   config-location: classpath:mybatis/mybatis-config.xml
   mapper-locations: classpath:mybatis/mapper/*.xml
 
+#端口号
+server:
+  port: 8081
 
-
+# 设置指定包的日志等级 查看sql
+logging:
+  level:
+    com.xp.graduation.mapper: debug
