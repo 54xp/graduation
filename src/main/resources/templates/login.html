@@ -77,8 +77,13 @@
 							<input id="regpasss2" name="regpasss2" type="password" class="input" data-type="password">
 						</div>
 						<div class="group">
-							<label for="pass" class="label" th:text="#{register.phone}">电话</label>
-							<input id="regphone" name="phone" type="text" class="input">
+							<label for="pass" class="label" th:text="#{register.phone}" >电话</label>
+							<input id="regphone" name="phone" type="text" class="input" onblur="sendYzm()">
+						</div>
+						<div class="group">
+							<label for="pass" class="label" th:text="#{register.vcode}" >验证码</label>
+							<input id="ajaxYzm" name="ajaxYzm" type="hidden" >
+							<input id="yzm" name="yzm" type="text" class="input">
 						</div>
 						<div class="group">
 							<button class="button" type="submit" th:text="#{register.type}">注册</button>  <!--onClick="sub()" -->
@@ -92,7 +97,7 @@
 		</div>
 	</div>	
 	<script src="../static/login/js/jigsaw.js" th:src="@{../static/login/js/jigsaw.js}"></script>
-
+	<script src="../static/js/jquery.js"></script>
 <script>
 	var flag = false;
 	// 登录验证
@@ -146,6 +151,28 @@
 		var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
 		var r = window.location.search.substr(1).match(reg);
 		if(r!=null)return  unescape(r[2]); return null;
+	}
+
+	function sendYzm() {
+		var phone = document.getElementById("regphone").value;
+		var TEL_REGEXP = /^1([38]\d|5[0-35-9]|7[3678])\d{8}$/;
+		if(!TEL_REGEXP.test(phone)){
+			alert("请输入正确的电话号码");
+			return false;
+		}
+		$.ajax({
+			url: "/verCode" + "/" + phone,
+			type: 'post',
+			data:{},
+			success:function (data) {
+			//	alert("您的验证码是:"+ data);
+				document.getElementById("ajaxYzm").value = data;
+			},
+			error:function (data) {
+				alert(2);
+			}
+
+		});
 	}
 </script>
 </body>

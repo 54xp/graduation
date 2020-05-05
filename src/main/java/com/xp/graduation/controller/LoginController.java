@@ -40,8 +40,15 @@ public class LoginController {
     }
 
     @PostMapping("/user/reg")
-    public String register(User user, Map<String,Object> map){
-        System.out.println("user = " + user);
+    public String register(User user, Map<String,Object> map,
+                           @RequestParam("yzm") String yzm,
+                           @RequestParam("ajaxYzm") String ajaxYzm){
+        if(!StringUtils.isEmpty(yzm) && !StringUtils.isEmpty(ajaxYzm)){
+            if(!yzm.equals(ajaxYzm)){
+                map.put("msg","请输入正确的验证码！！！");
+                return "login";
+            }
+        }
         User u = userMapper.findUnique(user.getUsername());
         if(StringUtils.isEmpty(u)){
             user.setPassword(md5.getMD5(user.getPassword()));
@@ -49,7 +56,6 @@ public class LoginController {
         }else{
            map.put("msg","用户名已存在");
         }
-
         return "login";
     }
 
@@ -75,8 +81,8 @@ public class LoginController {
 
     // 短信验证码
     @ResponseBody
-    @PostMapping("/verCode")
-    public String verCode(@RequestParam("phone") String phone){
+    @PostMapping("/verCode/{phone}")
+    public String verCode(@PathVariable("phone") String phone){
         System.out.println("phone = " + phone);
   //      String phonecode = PhoneCode.getPhonemsg(phone);
         String phonecode = "123456";
