@@ -191,7 +191,7 @@ public class AdminController {
     // 实训费用显示
     @GetMapping("adminCost")
     public  String adminCost(Model model){
-        List<TrainingSchedule> list = tMapper.findPojs();
+        List<TrainingSchedule> list = tMapper.findPojsPattr1();
         model.addAttribute("pojs",list);
         return "adminCostPage";
     }
@@ -200,7 +200,7 @@ public class AdminController {
     @PostMapping("adminUpdateCostInfo")
     public String adminUpdateTrainingScheduleInfo(TrainingSchedule trainingSchedule,Model model){
         tMapper.updateTrainInfo(trainingSchedule);
-        List<TrainingSchedule> list = tMapper.findPojs();
+        List<TrainingSchedule> list = tMapper.findPojsPattr1();
         model.addAttribute("pojs",list);
         return "adminCostPage";
     }
@@ -208,7 +208,7 @@ public class AdminController {
     // 实训地址展示
     @GetMapping("adminAddress")
     public  String adminAddress(Model model){
-        List<TrainingSchedule> list = tMapper.findPojs();
+        List<TrainingSchedule> list = tMapper.findPojsPattr1();
         model.addAttribute("pojs",list);
         return "adminAddressPage";
     }
@@ -217,7 +217,7 @@ public class AdminController {
     @PostMapping("adminUpdateAddressInfo")
     public String adminUpdateAddressInfo(TrainingSchedule trainingSchedule,Model model){
         tMapper.updateTrainInfo(trainingSchedule);
-        List<TrainingSchedule> list = tMapper.findPojs();
+        List<TrainingSchedule> list = tMapper.findPojsPattr1();
         model.addAttribute("pojs",list);
         return "adminAddressPage";
     }
