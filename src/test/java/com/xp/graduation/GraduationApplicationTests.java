@@ -3,7 +3,6 @@ package com.xp.graduation;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.xp.graduation.bean.Level;
-import com.xp.graduation.bean.ScoreForm;
 import com.xp.graduation.bean.TrainingSchedule;
 import com.xp.graduation.bean.User;
 import com.xp.graduation.mapper.FeedBackMapper;
@@ -15,6 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.StringUtils;
 
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,8 +31,18 @@ class GraduationApplicationTests {
     ScoreFormMapper sMapper;
     @Autowired
     FeedBackMapper fMapper;
+    @Autowired
+    DataSource dataSource;
+
     @Test
     void contextLoads() {
+    }
+
+    @Test
+    public void testMysql() throws SQLException {
+        Connection connection = dataSource.getConnection();
+        System.out.println(connection);
+        connection.close();
     }
 
     @Test
@@ -38,7 +50,7 @@ class GraduationApplicationTests {
         PageHelper.startPage(1,4);
         List<User> users = uMapper.findUserByLevel(2);
         PageInfo<User> pinfo = new PageInfo<>(users);
-        System.out.println("pinfo.getPages() = " + pinfo.getPages());
+     //   System.out.println("pinfo.getPages() = " + pinfo.getPages());
         for (User user : users) {
             System.out.println("user = " + user);
         }
@@ -74,9 +86,10 @@ class GraduationApplicationTests {
     // 测试 lombok
     @Test
     public void testTrainingSchedule(){
-        TrainingSchedule t = new TrainingSchedule();
-        t.setAddress("11");
-        System.out.println("t = " + t);
+        User user = new User();
+        user.setId(1);
+        user.setUsername("熊鹏");
+        System.out.println("user = " + user);
     }
 
     @Test
