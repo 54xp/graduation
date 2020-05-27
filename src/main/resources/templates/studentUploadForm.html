@@ -58,11 +58,17 @@
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
             <h2>实习报告上传</h2>
             <div>
-                <form role="form" th:action="@{/stuUploadDoc}" method="post" enctype="multipart/form-data">
+                <form role="form" th:action="@{/stuUploadDoc}" method="post" enctype="multipart/form-data" onsubmit="return checkData()">
                     <div class="form-group row">
                         <label class="col-sm-1 control-label" for="username">用户名</label>
                         <div class="col-sm-5">
                             <input type="text" class="form-control" id="username" name="username" placeholder="用户名" th:value="${session.loginUserInfo.username}" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-1 control-label" for="doc"></label>
+                        <div class="col-sm-5">
+                            <span style="color: red">*仅能上传doc/docx 文件</span>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -122,6 +128,22 @@
         }
     });
 </script>
-
+<script>
+    function checkData(){
+        var fileName = document.getElementById("doc").value;
+        var index = fileName.lastIndexOf('.'); // 字符出现的位置
+        if(index == -1){
+            alert("请上传正确的文件!!!");
+            return false;
+        }
+        var lastName = fileName.substr(index+1);
+        alert(lastName);
+        if(lastName.trim().toString() != "doc" && lastName.trim().toString() != "docx"){
+            alert("请上传正确的文件!!!");
+            return false;
+        }
+        return true;
+    }
+</script>
 </body>
 </html>
