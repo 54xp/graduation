@@ -112,11 +112,11 @@ public class StudentController {
 
     // 提交实训效果反馈
     @PostMapping("stuFeedback")
-    public String stuFeedback(FeedBack feedBack,Model model){
+    public String stuFeedback(FeedBack feedBack,Model model,HttpSession session){
         System.out.println("feedBack = " + feedBack);
         fMapper.insertFeedBack(feedBack);
         sMapper.updateStatus(feedBack.getUsername());
-        model.addAttribute("message","实训反馈提交成功！！！");
+        session.setAttribute("message","实训反馈提交成功！！！");
         return "redirect:/main.html";
     }
 }

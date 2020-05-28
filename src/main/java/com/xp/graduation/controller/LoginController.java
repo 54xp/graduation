@@ -2,6 +2,7 @@ package com.xp.graduation.controller;
 
 import com.xp.graduation.bean.User;
 import com.xp.graduation.mapper.UserMapper;
+import com.xp.graduation.utils.PhoneCode;
 import com.xp.graduation.utils.md5;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -84,8 +85,8 @@ public class LoginController {
     @PostMapping("/verCode/{phone}")
     public String verCode(@PathVariable("phone") String phone){
         System.out.println("phone = " + phone);
-  //      String phonecode = PhoneCode.getPhonemsg(phone);
-        String phonecode = "123456";
+        String phonecode = PhoneCode.getPhonemsg(phone);
+     //   String phonecode = "123456";
         return phonecode;
     }
 }
