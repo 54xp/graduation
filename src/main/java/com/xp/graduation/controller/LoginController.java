@@ -6,6 +6,7 @@ import com.xp.graduation.utils.PhoneCode;
 import com.xp.graduation.utils.md5;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,12 +27,14 @@ public class LoginController {
     @PostMapping("/user/login")
     public String login(User user,
                         Map<String,Object> map,
-                        HttpSession session){
+                        HttpSession session,
+                        ModelMap mmap){
         user.setPassword(md5.getMD5(user.getPassword()));
         User userinfo = userMapper.findUserByNameAndPwd(user);
         if(!(userinfo == null)){
             session.setAttribute("loginUserInfo",userinfo);
             session.removeAttribute("message");
+            mmap.remove("errorPwd");
             // 重定向 防止表单重复提交
             return "redirect:/main.html";
         }else{
@@ -75,9 +78,21 @@ public class LoginController {
     @PostMapping("/updatePwd")
     public  String updatePwd(@RequestParam("username") String username,
                              @RequestParam("newPwd") String pwd,
-                             @RequestParam("oldPwd") String oldPwd){
-        userMapper.updatePwd(username,md5.getMD5(pwd),md5.getMD5(oldPwd));
-        return "login";
+                             @RequestParam("oldPwd") String oldPwd,
+                             ModelMap mmap){
+        User u = new User();
+        u.setUsername(username);
+        u.setPassword(md5.getMD5(oldPwd));
+        User userInfo = userMapper.findUserByNameAndPwd(u);
+        if(StringUtils.isEmpty(userInfo)){
+            mmap.addAttribute("errorPwd","旧密码不正确!!!");
+            return "updateInfo";
+        }else{
+            userMapper.updatePwd(username,md5.getMD5(pwd),md5.getMD5(oldPwd));
+            mmap.remove("errorPwd");
+            return "login";
+        }
+
     }
 
     // 短信验证码
