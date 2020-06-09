@@ -54,6 +54,7 @@ public class StudentController {
     }
 
     // 报名
+    @Transactional
     @PostMapping("/student/{id}")
     public String updateTrainingScheduleById(@PathVariable("id") Integer id,
                                              @RequestParam("teacher") String teacher,
