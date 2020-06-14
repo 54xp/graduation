@@ -11,6 +11,7 @@ import com.xp.graduation.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -51,6 +52,9 @@ public class TeacherController {
     @ResponseBody
     public List<User> getTeachersInfoPage(@RequestParam("pagenum") String pagenum, Model model){
         System.out.println("pagenum = " + pagenum);
+        if(StringUtils.isEmpty(pagenum)){
+            pagenum = 1 +"";
+        }
         PageHelper.startPage(Integer.parseInt(pagenum),4);
         List<User> users = userMapper.findUserByLevel(2);
         for (User user : users) {
@@ -101,11 +105,11 @@ public class TeacherController {
         List<ScoreForm> list = sMapper.selectStuDoc(loginUserInfo.getUsername());
         for (int i = 0; i < list.size(); i++) {
             String reportdoc = list.get(i).getReportdoc();
-            String[] s = reportdoc.split("_");
-            if(s.length > 1){
-                list.get(i).setShowreportdoc(s[1]);
-            }else{
+            if(StringUtils.isEmpty(reportdoc)){
                 list.get(i).setShowreportdoc("暂未提交实习报告");
+            }else{
+                String[] s = reportdoc.split("_");
+                    list.get(i).setShowreportdoc(s[1]);
             }
         }
         model.addAttribute("docs",list);
