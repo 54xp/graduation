@@ -59,7 +59,7 @@
             <h2>发布实训信息</h2>
 
             <div class="table-responsive">
-                <form role="form" th:action="@{/insertTrainingSchedule}" method="post" enctype="multipart/form-data">
+                <form role="form" th:action="@{/insertTrainingSchedule}" method="post" enctype="multipart/form-data" onsubmit="return checkData()">
                     <div class="form-group row">
                         <label class="col-sm-1 control-label" for="companyname">企业名称</label>
                         <div class="col-sm-5">
@@ -195,7 +195,34 @@
         $(function(){
             GetDateNow();
         });
+    
+      function checkData() {
+          var pname = document.getElementById("pname").value;
+          var address = document.getElementById("address").value;
+          var starttime = document.getElementById("starttime").value;
+          var endtime = document.getElementById("endtime").value;
+          
+          if("" == pname ){
+              alert("项目名不能为空！！！");
+              return false;
+          }
 
+          if("" == address ){
+              alert("地址信息不能为空！！！");
+              return false;
+          }
+          
+          if("" == starttime ){
+              alert("开始时间不能为空！！！");
+              return false;
+          }
+          if("" == endtime ){
+              alert("结束时间不能为空！！！");
+              return false;
+          }
+          return true;
+      }  
+        
 </script>
 </body>
 </html>

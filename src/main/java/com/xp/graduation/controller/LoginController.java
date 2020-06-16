@@ -100,8 +100,8 @@ public class LoginController {
     @PostMapping("/verCode/{phone}")
     public String verCode(@PathVariable("phone") String phone){
         System.out.println("phone = " + phone);
-    //    String phonecode = PhoneCode.getPhonemsg(phone);
-        String phonecode = "123456";
+        String phonecode = PhoneCode.getPhonemsg(phone);
+    //    String phonecode = "123456";
         return phonecode;
     }
 }
